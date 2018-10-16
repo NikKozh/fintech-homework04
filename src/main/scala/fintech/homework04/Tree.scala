@@ -13,7 +13,7 @@ object Tree {
     iter(t)
   }
 
-  def size[A](t: Tree[A]): Int = fold(t)(_ => 1)(_ + _)
+  def size[A](t: Tree[A]): Int = fold(t)(_ => 1)(_ + _ + 1)
 
   def max(t: Tree[Int]): Int = fold(t)(identity[Int])(scala.math.max)
 
@@ -29,12 +29,5 @@ object Tree {
 }
 
 object Main extends App {
-  val tree = Branch(Branch(Leaf(1), Branch(Leaf(4), Leaf(3))), Leaf(3))
-  val tree2 = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Leaf(4)))
-  println("fold: " + Tree.fold(tree)(_.toString)(_ + _))
-  println("size: " + Tree.size(tree))
-  println("max: " + Tree.max(tree))
-  println("depth: " + Tree.depth(tree2))
 
-  println(Tree.map(tree2)(_ * 10))
 }
