@@ -18,9 +18,10 @@ object Tree {
       case Nil => acc.get
 
       case Leaf(value) :: tail =>
-        val newAcc =
-          if (acc.isDefined) f.andThen(g(acc.get, _))(value)
-          else f(value)
+        val newAcc = acc match {
+          case Some(a) => f.andThen(g(a, _))(value)
+          case None    => f(value)
+        }
         iter(tail, Some(newAcc))
 
       case Branch(left, right) :: tail =>
