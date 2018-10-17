@@ -13,6 +13,23 @@ object Tree {
     iter(t)
   }
 
+  def tailrecFold[A,B](t: Tree[A])(f: A => B)(g: (B,B) => B): B = {
+    def iter(stack: List[Tree[A]], acc: Option[B]): B = stack match {
+      case Nil => acc.get
+
+      case Leaf(value) :: tail =>
+        val newAcc =
+          if (acc.isDefined) f.andThen(g(acc.get, _))(value)
+          else f(value)
+        iter(tail, Some(newAcc))
+
+      case Branch(left, right) :: tail =>
+        iter(left :: right :: tail, acc)
+    }
+
+    iter(List(t), None)
+  }
+
   def size[A](t: Tree[A]): Int = fold(t)(_ => 1)(_ + _ + 1)
 
   def max(t: Tree[Int]): Int = fold(t)(identity[Int])(scala.math.max)
