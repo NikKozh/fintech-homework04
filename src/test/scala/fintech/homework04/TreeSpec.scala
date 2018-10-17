@@ -11,49 +11,49 @@ class TreeSpec extends FlatSpec with Matchers {
     val treeList = List(singleton, simple, unbalanced, complex)
   }
 
-  "fold" should "work correctly" in {
+  "fold" should "reduce elements of the tree accordingly to second function, applying first function to each value" in {
     val results = List("5", "1234", "1432", "14352")
     TreeSamples.treeList.zip(results).foreach { testPair =>
       Tree.fold(testPair._1)(_.toString)(_ + _) should be(testPair._2)
     }
   }
 
-  "tailrecFold" should "work correctly" in {
+  "tailrecFold" should "work as tail recursive version of fold with the same results" in {
     val results = List("5", "1234", "1432", "14352")
     TreeSamples.treeList.zip(results).foreach { testPair =>
       Tree.tailrecFold(testPair._1)(_.toString)(_ + _) should be(testPair._2)
     }
   }
 
-  "size" should "work correctly" in {
+  "size" should "counting all nodes in the tree" in {
     val results = List(1, 7, 7, 9)
     TreeSamples.treeList.zip(results).foreach { testPair =>
       Tree.size(testPair._1) should be(testPair._2)
     }
   }
 
-  "dataSize" should "work correctly" in {
+  "dataSize" should "counting all leafs in the tree" in {
     val results = List(1, 4, 4, 5)
     TreeSamples.treeList.zip(results).foreach { testPair =>
       Tree.dataSize(testPair._1) should be(testPair._2)
     }
   }
 
-  "max" should "work correctly" in {
+  "max" should "return the max value in the tree" in {
     val results = List(5, 4, 4)
     TreeSamples.treeList.take(3).zip(results).foreach { testPair =>
       Tree.max(testPair._1.asInstanceOf[Tree[Int]]) should be(testPair._2)
     }
   }
 
-  "depth" should "work correctly" in {
+  "depth" should "return length of path from root to the most far leaf" in {
     val results = List(0, 2, 3, 4)
     TreeSamples.treeList.zip(results).foreach { testPair =>
       Tree.depth(testPair._1) should be(testPair._2)
     }
   }
 
-  "map" should "work correctly" in {
+  "map" should "return new tree with applying function to each value" in {
     val singletonMap: Tree[String] = Leaf("555")
     val simpleMap: Tree[String] = Branch(Branch(Leaf("111"), Leaf("222")), Branch(Leaf("333"), Leaf("444")))
     val unbalancedMap: Tree[String] = Branch(Branch(Leaf("111"), Branch(Leaf("444"), Leaf("333"))), Leaf("222"))
