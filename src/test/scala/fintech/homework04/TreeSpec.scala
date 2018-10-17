@@ -18,10 +18,24 @@ class TreeSpec extends FlatSpec with Matchers {
     }
   }
 
+  "tailrecFold" should "work correctly" in {
+    val results = List("5", "1234", "1432", "14352")
+    TreeSamples.treeList.zip(results).foreach { testPair =>
+      Tree.tailrecFold(testPair._1)(_.toString)(_ + _) should be(testPair._2)
+    }
+  }
+
   "size" should "work correctly" in {
     val results = List(1, 7, 7, 9)
     TreeSamples.treeList.zip(results).foreach { testPair =>
       Tree.size(testPair._1) should be(testPair._2)
+    }
+  }
+
+  "dataSize" should "work correctly" in {
+    val results = List(1, 4, 4, 5)
+    TreeSamples.treeList.zip(results).foreach { testPair =>
+      Tree.dataSize(testPair._1) should be(testPair._2)
     }
   }
 
